@@ -1,34 +1,25 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import CharacterList from "./components/CharacterList";
+import React from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { ROUTES } from "./constants";
 import "./App.css";
 
+// TODO: Check map function
 function App() {
-  const [characters, setCharacters] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    getCartoon();
-  }, []);
-
-  const getCartoon = async () => {
-    const response = await axios.get(
-      "https://rickandmortyapi.com/api/character"
-    );
-
-    console.log(response);
-    setCharacters(response.data.results);
-    setIsLoading(false);
-  };
-
-  if (isLoading) {
-    return <div style={{ backgroundColor: "red" }}>Loadıng!! </div>;
-  }
-
   return (
-    <div className="App">
-      <CharacterList characters={characters} />
-    </div>
+    <BrowserRouter>
+      <Switch>
+        {ROUTES.map((route, index) => {
+          return (
+            <Route
+              key={index}
+              path={route.path}
+              component={route.page}
+              exact={route.exact}
+            />
+          );
+        })}
+      </Switch>
+    </BrowserRouter>
   );
 }
 

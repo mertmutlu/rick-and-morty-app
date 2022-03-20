@@ -1,0 +1,17 @@
+.Homepage {
+  font: inherit;
+  border: 1px solid #4f005f;
+  background: #ad92b3;
+  color: white;
+  padding: 0.25rem 1rem;
+  cursor: pointer;
+
+  /* text-align: center;
+  background-color: #f0f0f0;
+  min-height: 100vh; */
+}
+
+.Homepage-grid-container {
+  display: grid;
+  row-gap: 50px;
+}

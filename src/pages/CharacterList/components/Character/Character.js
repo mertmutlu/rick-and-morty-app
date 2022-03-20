@@ -10,7 +10,11 @@ function Character(props) {
 
   return (
     <div style={{ width: 300, display: "inline-grid", alignItems: "center" }}>
-      <img src={props.character.image} onClick={onCharacterClick} />
+      <img
+        src={props.character.image}
+        onClick={onCharacterClick}
+        alt="characterImage"
+      />
       {props.character.name}
     </div>
   );

@@ -31,7 +31,7 @@ function CharacterDetail() {
       <p>
         Selected Character Id, {characterId}, {character.name}
       </p>
-      <img src={character.image} />
+      <img src={character.image} alt="characterImage" />
     </div>
   );
 }

@@ -1,9 +1,9 @@
-import Homepage from "./pages/Homepage";
+import CharacterList from "./pages/CharacterList";
 import CharacterDetail from "./pages/CharacterDetail";
 
 // TODO: Check dynamic root mechanism
 export const ROUTES = [
-  { path: "/", page: Homepage, exact: true },
+  { path: "/", page: CharacterList, exact: true },
   { path: "/character/:characterId", page: CharacterDetail, exact: false },
 ];
 

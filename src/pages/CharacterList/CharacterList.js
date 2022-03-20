@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-import CharacterList from "../../components/CharacterList";
+import Character from "./components/Character";
 
 import { API_BASE_URL } from "../../constants";
-import "./Homepage.css";
+import "./CharacterList.css";
 
-function Homepage() {
+function CharacterList() {
   const [characters, setCharacters] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -27,10 +27,18 @@ function Homepage() {
   }
 
   return (
-    <div className="Homepage">
-      <CharacterList characters={characters} />
+    <div className="characterList">
+      {characters.map((character) => {
+        return (
+          <Character
+            key={character.id}
+            character={character}
+            species={character.species}
+          />
+        );
+      })}
     </div>
   );
 }
 
-export default Homepage;
+export default CharacterList;

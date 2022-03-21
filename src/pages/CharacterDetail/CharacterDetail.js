@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
 
 import { API_BASE_URL } from "../../constants";
@@ -9,9 +9,8 @@ function CharacterDetail() {
   const { characterId } = useParams();
   const [character, setCharacter] = useState();
   const [episodes, setEpisodes] = useState([]);
-  const [episodeDetail, setEpisodeDetail] = useState();
 
-  const [trigger, setTrigger] = useState(1);
+  const history = useHistory();
 
   useEffect(() => {
     console.log("first use eff");
@@ -21,10 +20,11 @@ function CharacterDetail() {
   useEffect(() => {
     console.log("second use eff");
     console.log(character);
+
     if (character) {
       getEpisodes();
     }
-  }, [character, trigger]);
+  }, [character]);
 
   const getCharacter = async () => {
     const response = await axios.get(
@@ -35,18 +35,29 @@ function CharacterDetail() {
   };
 
   const getEpisodes = async () => {
-    setEpisodes(character.episode);
+    const episodeResults = [];
 
-    const episodeDetail = await axios.get(`${character.episode[0]}`);
-    setEpisodeDetail(episodeDetail.data.episode);
-    console.log(episodeDetail.data.episode);
+    for (const episodeUrl of character.episode) {
+      const episodeResult = await getEpisode(episodeUrl);
+      episodeResults.push(episodeResult);
+    }
+
+    setEpisodes(episodeResults);
   };
-  // console.log(episodes);
+
+  const getEpisode = async (episodeUrl) => {
+    const episodeDetail = await axios.get(episodeUrl);
+    return episodeDetail.data;
+  };
+
+  console.log(episodes);
 
   if (character?.id == null) {
     return <p>loading</p>;
   }
-
+  const onBackButtonClick = () => {
+    history.push("/");
+  };
   return (
     <div className="characterDetail">
       <h1>Character Detail Page</h1>
@@ -54,14 +65,19 @@ function CharacterDetail() {
         Selected Character Id, {characterId}, {character.name}
       </p>
       <img src={character.image} alt="characterImage" />
-      <p>Episode Detail {episodeDetail}</p>
-      <button
-        onClick={() => {
-          setTrigger(trigger + 1);
-        }}
-      >
-        trigger
-      </button>
+
+      <div className="episodeItem">
+        <ul>
+          {episodes.map((person) => {
+            return (
+              <li key={person.id}>
+                {person.episode} - {person.name} years old
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+      <button onClick={onBackButtonClick}>Back</button>
     </div>
   );
 }
